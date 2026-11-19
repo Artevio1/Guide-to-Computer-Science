@@ -3,211 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Викторина: Базовый Уровень (Финальный Рефакторинг)</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        /* Стили CSS остаются прежними */
-        :root {
-            --primary: #FFC107; 
-            --secondary: #FFB300; 
-            --accent: #03A9F4; 
-            --danger: #EF5350; 
-            --bg: #1A1A2E;
-            --text-main: #EAEAEA;
-            --card-bg: #2C2C4E;
-        }
-
-        body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); line-height: 1.6; padding: 40px 20px; }
-
-        .quiz-container { max-width: 800px; margin: 0 auto; }
-        
-        .quiz-header {
-            background: linear-gradient(135deg, #1f4068 0%, #102030 100%);
-            color: var(--primary); padding: 30px; border-radius: 15px 15px 0 0;
-            text-align: center; border: 2px solid var(--primary);
-        }
-        .quiz-header h1 { margin: 0; font-size: 2.5em; color: white; }
-        .stats { color: var(--primary); font-weight: 700; }
-
-        .quiz-body { background: var(--card-bg); padding: 30px; border-radius: 0 0 15px 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        .question-box { margin-bottom: 30px; padding: 20px; border: 2px solid #374151; border-radius: 10px; }
-        .question-box h2 { color: var(--primary); margin-top: 0; font-size: 1.5em; }
-        
-        .answer-option {
-            background: #374151; color: var(--text-main); border: 2px solid #4b5563;
-            padding: 15px; margin-bottom: 10px; border-radius: 8px;
-            cursor: pointer; transition: all 0.2s; font-weight: 600;
-        }
-        .answer-option:hover:not(.disabled) { background: #4b5563; border-color: var(--primary); }
-        .answer-option.correct { background: var(--accent); border-color: #0288D1; color: white; }
-        .answer-option.wrong { background: var(--danger); border-color: #D32F2F; color: white; }
-        .answer-option.disabled { pointer-events: none; opacity: 0.8; }
-        
-        .btn-next {
-            display: block; width: 100%; padding: 15px; margin-top: 20px;
-            background: var(--primary); color: var(--bg); border: none; border-radius: 8px;
-            font-size: 1.2em; font-weight: 700; cursor: pointer; transition: background 0.3s;
-        }
-        .btn-next:hover { background: var(--secondary); }
-        
-        .results-screen { text-align: center; padding: 40px; }
-        .results-screen h2 { color: var(--accent); font-size: 3em; }
-        .btn-home { background: #4caf50; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; margin-top: 20px; display: inline-block; }
-    </style>
+    <meta name="color-scheme" content="light dark">
+    <title>Викторина: IT Энциклопедия</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23151A24'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3EIT%3C/text%3E%3C/svg%3E">
+    <script>
+        try {
+            var t = localStorage.getItem('theme') ||
+                (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.dataset.theme = t;
+        } catch (e) {}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="brand" href="index.html">
+                <span class="brand__mark" aria-hidden="true">IT</span>
+                Энциклопедия
+            </a>
+            <nav class="site-nav" aria-label="Основная навигация">
+                <a href="index.html">Справочник</a>
+                <a href="memory.html">Мемори</a>
+                <a href="quiz.html" aria-current="page">Викторина</a>
+                <a href="binary.html">Двоичный код</a>
+            </nav>
+            <button type="button" class="icon-btn theme-toggle" id="themeToggle" aria-label="Переключить тему оформления">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            </button>
+        </div>
+    </header>
 
-    <div class="quiz-container">
-        <header class="quiz-header">
-            <h1>IT Тест (Основы)</h1>
-            <p class="stats">Проверьте знание фундаментальных понятий</p>
-            <div class="stats">
-                <span>Вопрос: <span id="currentQuestionNum">1</span> / <span id="totalQuestionsNum">10</span></span>
-                <span>✅ Правильно: <span id="score">0</span></span>
+    <main class="page page--narrow">
+        <div class="page-head">
+            <h1>Викторина</h1>
+            <p>10 вопросов по основам информатики. Для каждого термина выберите верное определение. Варианты можно выбирать клавишами 1–4.</p>
+        </div>
+
+        <div id="quizView">
+            <div class="progress" id="progress" role="progressbar" aria-label="Прогресс викторины" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+                <div class="progress__bar" id="progressBar"></div>
             </div>
-        </header>
-
-        <main class="quiz-body">
-            <div id="quizContent">
-                </div>
-            
-            <div id="resultScreen" class="results-screen" style="display:none;">
-                <h2>Тест завершен!</h2>
-                <p>Ваш результат: <span id="finalScore">0</span> из <span id="maxScore">10</span></p>
-                <a href="Index.html" class="btn-home"><i class="fas fa-home"></i> Назад в Справочник</a>
+            <div class="quiz-meta">
+                <span>Вопрос <span id="qNum">1</span> из <span id="qTotal">10</span></span>
+                <span>Верно: <span id="score">0</span></span>
             </div>
-        </main>
-    </div>
+            <div id="quizContent"></div>
+        </div>
 
-    <script>
-        // База данных для квиза (Простой уровень)
-        const quizDatabase = [
-            { t: "Процессор (CPU)", a: "Главный 'мозг' компьютера, выполняющий все вычисления.", wrong: ["Устройство для хранения файлов", "Программа для просмотра сайтов", "Беспроводной протокол связи"], c: "hard" },
-            { t: "HTML", a: "Язык разметки, который используется для создания структуры веб-страниц.", wrong: ["Набор команд для управления роботом", "Протокол для защиты данных", "Программа для удаления вирусов"], c: "code" },
-            { t: "Операционная система", a: "Главная программа, управляющая всем оборудованием и запуском других программ.", wrong: ["Место для хранения фотографий в облаке", "Устройство для подключения принтера", "Правило написания чистого кода"], c: "soft" },
-            { t: "Переменная", a: "Именованное место в коде, используемое для временного хранения значений.", wrong: ["Графический элемент на экране", "Часть жесткого диска", "Условие, которое никогда не выполняется"], c: "code" },
-            { t: "Браузер", a: "Программа для запроса, обработки и отображения веб-страниц.", wrong: ["Устройство для записи звука", "Сетевой кабель", "База данных для хранения паролей"], c: "net" },
-            { t: "Оперативная память (RAM)", a: "Очень быстрая, но временная память для запущенных программ.", wrong: ["Долговременное хранилище файлов", "Программа для печати документов", "Часть материнской платы"], c: "hard" },
-            { t: "Пароль", a: "Секретный набор символов, используемый для подтверждения личности пользователя.", wrong: ["Уникальный адрес сайта", "Тип компьютерного вируса", "Правило организации папок"], c: "security" },
-            { t: "URL", a: "Уникальный адрес, используемый для идентификации ресурса в интернете (сайта, файла).", wrong: ["Тип шрифта", "Процесс сохранения файла", "Программа для создания таблиц"], c: "net" },
-            { t: "Цикл (Loop)", a: "Конструкция программирования, которая позволяет повторять один и тот же набор действий несколько раз.", wrong: ["Ошибка в коде", "Устройство вывода информации", "Процесс подключения к сети"], c: "code" },
-            { t: "Резервная копия (Backup)", a: "Копия данных, которая хранится отдельно и может быть использована для восстановления информации при сбое.", wrong: ["Процесс удаления старых файлов", "Быстрый доступ к диску", "Набор правил для веб-сервера"], c: "data" },
-            { t: "CSS", a: "Язык стилей, используемый для описания внешнего вида и оформления веб-страницы.", wrong: ["Язык программирования логики", "База данных для хранения стилей", "Протокол шифрования"], c: "code" },
-            { t: "Антивирус", a: "Программа, предназначенная для обнаружения, предотвращения и удаления вредоносного ПО.", wrong: ["Программа для создания презентаций", "Устройство для подключения к роутеру", "Тип сетевого протокола"], c: "security" }
-        ];
+        <div class="result" id="resultView" hidden></div>
+    </main>
 
-        let questions = [];
-        let currentQuestionIndex = 0;
-        const totalQuestions = 10; 
-        let score = 0;
+    <footer class="site-footer">
+        Учебный справочник по информатике. Подробные статьи по каждому термину открываются в Википедии.
+    </footer>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            generateQuestions();
-            if (questions.length !== totalQuestions) {
-                document.getElementById('quizContent').innerHTML = `<h2 style="color:var(--danger)">Критическая ошибка инициализации.</h2>`;
-                return;
-            }
-            loadQuestion();
-            document.getElementById('totalQuestionsNum').innerText = totalQuestions;
-        });
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function generateQuestions() {
-            let shuffledDatabase = [...quizDatabase];
-            shuffleArray(shuffledDatabase);
-            
-            questions = shuffledDatabase.slice(0, totalQuestions);
-
-            questions.forEach(q => {
-                const answers = [q.a, ...q.wrong];
-                shuffleArray(answers);
-                q.options = answers;
-            });
-        }
-
-        function loadQuestion() {
-            if (currentQuestionIndex >= totalQuestions) {
-                showResults();
-                return;
-            }
-
-            const q = questions[currentQuestionIndex];
-            const quizContent = document.getElementById('quizContent');
-            quizContent.innerHTML = `
-                <div class="question-box">
-                    <h2>${currentQuestionIndex + 1}. Что из перечисленного лучше всего описывает **${q.t}**?</h2>
-                    <div id="answerOptions">
-                        ${q.options.map((option, index) => `
-                            <div class="answer-option" data-answer="${option}">
-                                ${option}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <button id="nextBtn" class="btn-next" style="display:none;">
-                    ${currentQuestionIndex === totalQuestions - 1 ? 'Показать результат' : 'Далее'} <i class="fas fa-arrow-right"></i>
-                </button>
-            `;
-            
-            // 💡 НОВЫЙ МЕТОД: Устанавливаем обработчики событий после создания DOM
-            document.querySelectorAll('.answer-option').forEach(option => {
-                option.addEventListener('click', () => checkAnswer(option, q.a));
-            });
-            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
-
-
-            document.getElementById('currentQuestionNum').innerText = currentQuestionIndex + 1;
-        }
-
-        function checkAnswer(selectedElement, correctAnswer) {
-            // Защита от двойного нажатия и сбоев:
-            // Сначала отключаем все кнопки ответов
-            document.querySelectorAll('.answer-option').forEach(opt => opt.classList.add('disabled'));
-            
-            const selectedAnswer = selectedElement.getAttribute('data-answer');
-            const nextBtn = document.getElementById('nextBtn');
-
-            if (selectedAnswer === correctAnswer) {
-                selectedElement.classList.add('correct');
-                score++;
-                document.getElementById('score').innerText = score;
-            } else {
-                selectedElement.classList.add('wrong');
-                // Визуальное выделение правильного ответа
-                document.querySelector(`.answer-option[data-answer="${correctAnswer}"]`).classList.add('correct');
-            }
-
-            nextBtn.style.display = 'block'; 
-        }
-
-        function nextQuestion() {
-            // Проверка на конец викторины перед переходом
-            if (currentQuestionIndex === totalQuestions - 1) {
-                showResults();
-                return;
-            }
-            
-            currentQuestionIndex++;
-            loadQuestion(); 
-        }
-
-        function showResults() {
-            document.getElementById('quizContent').style.display = 'none';
-            
-            const resultScreen = document.getElementById('resultScreen');
-            resultScreen.style.display = 'block';
-            
-            document.getElementById('finalScore').innerText = score;
-            document.getElementById('maxScore').innerText = totalQuestions;
-        }
-    </script>
+    <script src="data.js"></script>
+    <script src="common.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
